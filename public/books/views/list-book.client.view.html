@@ -1,0 +1,86 @@
+<div class="content" data-ng-controller="BooksController" data-ng-init="find()">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Libros</h4>
+                                <div class="pull-right">
+                                    <a class="btn btn-orange" href="user#!/books/create">
+                                        Agregar Libro
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th> Código </th>
+                                        <th> Título</th>
+                                        <th> Autor </th>
+                                        <th> Descripción </th>
+                                        <th> Rama </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="book in books">
+
+                                        <td>
+                                            <div class="media">
+                                                {{book.codigo}}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="media">
+                                                {{book.titulo}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media">
+                                                {{book.autor}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media">
+                                                {{book.descripcion}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media">
+                                                {{book.rama}}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="pull-right">
+                                                <a class="btn btn-orange btn-md" href="user#!/books/{{book._id}}/edit">
+                                                    Editar
+                                                </a>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <a class="btn btn-orange btn-md" href="#" data-ng-click="delete(book);">
+                                                    Eliminar
+                                                </a>
+                                            </div>
+
+                                        </td>
+
+
+
+
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>

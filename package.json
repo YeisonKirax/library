@@ -1,0 +1,20 @@
+{
+  "name": "MEAN",
+  "version": "0.0.1",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "latest",
+    "compression": "latest",
+    "connect-flash": "latest",
+    "crypto": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "express-session": "latest",
+    "method-override": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "passport": "latest",
+    "passport-local": "latest"
+  }
+}

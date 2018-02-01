@@ -1,0 +1,67 @@
+<div class="content" ng-controller="BooksController"  data-ng-init="findOne()" novalidate>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Editar Libro</h4>
+                    </div>
+
+                    <div class="content">
+                        <span >
+                        <form class="signin form-horizontal" data-ng-submit="update()">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="titulo" id="titulo" >Título</label>
+                                        <input type="text" class="form-control" data-ng-model="book.titulo" name="titulo" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="autor" id="autor" >Autor</label>
+                                        <input type="text" class="form-control" data-ng-model="book.autor" name="autor" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="descripcion" id="descripcion">Descripcion</label>
+                                        <textarea cols=20 rows=5 data-ng-model="book.descripcion"  required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="codigo" id="codigo">Código</label>
+                                        <input type="text" class="form-control" data-ng-model="book.codigo" name="codigo"  required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="rama" id="rama">Rama</label>
+                                        <input type="text" class="form-control" data-ng-model="book.rama" name="rama"  required>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"></label>
+                                <div class="controls">
+                                    <input id="btn" type="submit"  class="btn btn-info btn-fill" value="Actualizar libro">
+                                </div>
+                            </div>
+                            <div data-ng-show="error">
+                              <strong data-ng-bind="error"></strong>
+                            </div>
+
+                        </form>
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

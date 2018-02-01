@@ -1,0 +1,24 @@
+<div class="content" ng-controller="UsersController">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Mi perfil</h4>
+
+                    </div>
+                    <div class="content">
+                        <span >
+                          <a href="user#!/usuarios/{{user._id}}/edit">Editar Datos</a>
+                          <a href="/" data-ng-click="delete(user);">Eliminar Cuenta</a>
+                        <section data-ng-init="findOne()">
+                            <hr>Usuario: {{user.username}}</hr>
+
+                        </section>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
