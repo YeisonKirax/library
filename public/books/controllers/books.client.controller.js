@@ -11,7 +11,7 @@ angular.module('books').controller('BooksController', ['$scope', '$routeParams',
       rama: this.rama
     });
     book.$save(function(response){
-      $location.path('books/'+response._id);
+      $location.path('books');
     }, function(errorResponse){
       $scope.error = errorResponse.data.message;
     });
@@ -27,7 +27,7 @@ angular.module('books').controller('BooksController', ['$scope', '$routeParams',
   };
   $scope.update = function(){
     $scope.book.$update(function(){
-      $location.path('books/' + $scope.book._id);
+      $location.path('books');
     }, function(errorResponse){
       $scope.error = errorResponse.data.message;
     });
