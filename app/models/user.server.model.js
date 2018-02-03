@@ -1,13 +1,14 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var validators = require('mongoose-validators');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 var SALT_WORK_FACTOR = 10;
 var UserSchema = new Schema({
   username: {
-    type: String
-
+    type: String,
+    validate: validators.isEmail({message: 'Ingrese un email válido'})
   },
   provider:{
     type: String

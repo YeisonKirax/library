@@ -13,6 +13,7 @@
     "express-session": "latest",
     "method-override": "latest",
     "mongoose": "latest",
+    "mongoose-validators": "^0.1.0",
     "morgan": "latest",
     "passport": "latest",
     "passport-local": "latest"
