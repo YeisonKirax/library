@@ -19,7 +19,7 @@ module.exports = function(){
     extended: true
   }));
   app.use(bodyParser.json());
-  app.use(methodOverride());
+  app.use(methodOverride('_method'));
   app.use(session({
     saveUninitialized: true,
     resave: true,
@@ -33,13 +33,13 @@ module.exports = function(){
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Se configura el servidor de archivos estáticos
-  app.use(express.static('./public'));
+
 
  // Se cargan las rutas del server
 
-  require('../app/routes/index.server.routes.js')(app);
-  require('../app/routes/users.server.routes.js')(app);
-  require('../app/routes/books.server.routes.js')(app);
+  require('../app/routes/routes.js')(app);
+
+  // Se configura el servidor de archivos estáticos
+  app.use(express.static('./public'));
   return app;
 };

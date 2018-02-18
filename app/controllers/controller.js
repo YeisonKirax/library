@@ -1,10 +1,21 @@
 'use strict';
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Book = mongoose.model('Book');
 var passport = require('passport');
 
-// Crear un nuevo método controller manejador de errores
-var getErrorMessage = function(err) {
+var getErrorMessage = function(err){
+  if(err.errors){
+    for(var errName in err.errors){
+      if(err.errors[errName].message){
+        return err.errors[errName].message;
+      }
+    }
+  }else{
+    return 'Error de servidor desconocido';
+  }
+};
+var getErrorMessage2 = function(err) {
   // Definir la variable de error message
   var message = '';
 
@@ -30,6 +41,141 @@ var getErrorMessage = function(err) {
   // Devolver el mensaje de error
   return message;
 };
+exports.indexRender = function(req, res){
+  if(req.session.lastVisit){
+    console.log(req.session.lastVisit);
+  }
+  req.session.lastVisit = new Date();
+
+  res.render('index', {
+
+    user:JSON.stringify(req.user)
+  });
+};
+
+//################# CRUD LIBRO #############################
+exports.bookCreateView = function(req, res){
+  res.render('bookCreate', {
+    title: "Biblioteca",
+    user:JSON.stringify(req.user)
+  });
+};
+exports.bookEditView = function(req, res){
+  let libroId = req.params.bookId
+  Book.findById(libroId, (err, libro) =>{
+    if(err) res.status(500).send({message: 'Error al encontrar el libro'})
+    if(!libro) res.status(400).send({message: 'Libro no existe'})
+    res.render('bookEdit', {
+      title: "Biblioteca",
+      libro: libro,
+      user:JSON.stringify(req.user)
+    });
+  })
+
+};
+exports.bookCreate = function(req, res){
+  var book = new Book(req.body);
+  book.save(function(err){
+    if(err){
+      return res.status(400).send({
+        message: getErrorMessage(err)
+      });
+    }else{
+      res.render('user',{
+        user: JSON.stringify(req.user),
+        title: "Biblioteca"
+      });
+    }
+  });
+};
+exports.bookList = function(req, res){
+  Book.find().exec(function(err, books){
+    if(err){
+      return res.status(400).send({
+        message: getErrorMessage(err)
+      });
+    }else{
+      res.render('bookList',{
+        user: JSON.stringify(req.user),
+        title: "Biblioteca",
+        books: books
+      })
+    }
+  });
+};
+exports.bookRead = function(req, res){
+  res.json(req.book);
+};
+exports.bookUpdate = function(req, res){
+  var book = req.book;
+  book.codigo = req.body.codigo;
+  book.titulo = req.body.titulo;
+  book.descripcion = req.body.descripcion;
+  book.autor = req.body.autor;
+  book.rama = req.body.rama;
+
+  book.save(function(err){
+    if(err){
+      return res.status(400).send({
+        message: getErrorMessage(err)
+      });
+    }else{
+      res.render('user',{
+        user: JSON.stringify(req.user),
+        title: "Biblioteca"
+      });
+    }
+  });
+};
+exports.bookDelete = function(req, res){
+  let libroId = req.params.bookId
+  Book.remove({_id: libroId}, (err, libro) =>{
+    if(err) res.status(500).send({message: 'Error al borrar el libro'})
+    if(!libro) res.status(400).send({message: 'Libro no encontrado'})
+
+    res.render('user',{
+      title: "Biblioteca",
+      user: JSON.stringify(req.user)
+    })
+
+  })
+
+}
+exports.bookByID = function(req, res, next, id){
+  Book.findById(id).exec(function(err, book){
+    if (err){
+      return next(err);
+    }
+    if(!book){
+      return next(new Error('Fallo al cargar el libro ' + id));
+    }
+    req.book = book;
+    next();
+  });
+};
+//################################################################
+//################## CRUD USER #################################
+exports.userView = function (req, res){
+  res.render('userView', {
+    title: "Biblioteca",
+    id: req.user._id,
+    username: req.user.username,
+    user: JSON.stringify(req.user)
+  })
+}
+
+exports.userEdit = function (req, res){
+  let userId = req.params.userId
+  User.findById(userId, (err, user) =>{
+    if(err) res.status(500).send({message: 'Error al encontrar el libro'})
+    if(!user) res.status(400).send({message: 'Libro no existe'})
+    res.render('userEdit', {
+      title: "Biblioteca",
+      user: user
+    });
+  })
+}
+
 exports.dashboardUsuario = function(req, res) {
     res.render('user', {
         title: "Biblioteca",
@@ -86,7 +232,7 @@ exports.signup = function(req, res, next) {
       // Si ocurre un error, usa el mensaje flash para reportar el error
       if (err) {
         // Usa el método de manejo de errores para obtener el mensaje de error
-        var message = getErrorMessage(err);
+        var message = getErrorMessage2(err);
 
         // Configura los mensajes flash
         req.flash('error', message);
@@ -120,11 +266,11 @@ exports.signout = function(req, res) {
 
 // Crear un nuevo método controller list
 
-exports.list = function(req, res){
+exports.userList = function(req, res){
   User.find().exec(function(err, users){
     if(err){
       return res.status(400).send({
-        message: getErrorMessage(err)
+        message: getErrorMessage2(err)
       });
     }else{
       res.json(users)
@@ -132,35 +278,36 @@ exports.list = function(req, res){
   });
 };
 
-exports.read = function(req, res){
+exports.userRead = function(req, res){
   res.json(req.user);
 };
 
-exports.update = function(req, res){
+exports.userUpdate = function(req, res){
   var user = req.user;
   user.username = req.body.username;
   user.password = req.body.password;
   user.save(function(err){
     if(err){
       return res.status(400).send({
-        message: getErrorMessage(err)
+        message: getErrorMessage2(err)
       });
     }else{
       res.json(user);
     }
   });
 };
-exports.delete = function(req, res){
-  var user = req.user;
-  user.remove(function(err){
-    if(err){
-      return res.status(400).send({
-        message: getErrorMessage(err)
-      });
-    }else{
-      res.json(user);
-    }
-  });
+exports.userDelete = function(req, res){
+  let userId = req.params.userId
+  User.remove({_id: userId}, (err, user) =>{
+    if(err) res.status(500).send({message: 'Error al borrar usuario'})
+    if(!user) res.status(400).send({message: 'Usuario no encontrado'})
+
+    req.logout();
+
+    // Redirecciona al usuario de vuelta a la página de la aplicación principal
+    res.redirect('/');
+
+  })
 };
 exports.userByID = function(req, res, next, id){
   User.findById(id).exec(function(err, user){
@@ -168,7 +315,7 @@ exports.userByID = function(req, res, next, id){
       return next(err);
     }
     if(!user){
-      return next(new Error('Fallo al cargar el libro ' + id));
+      return next(new Error('Fallo al cargar el usuario ' + id));
     }
     req.user = user;
     next();

@@ -10,6 +10,7 @@
     "crypto": "latest",
     "ejs": "latest",
     "express": "latest",
+    "express-method-override": "0.0.3",
     "express-session": "latest",
     "method-override": "latest",
     "mongoose": "latest",

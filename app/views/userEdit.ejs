@@ -42,7 +42,7 @@
 			<ul class="nav">
 
 				<li>
-					<a href="/api/books">
+					<a href="#!/books">
 						<i class="pe-7s-ticket"></i>
 						<p>Libros</p>
 					</a>
@@ -83,10 +83,57 @@
 			</div>
 		</nav>
 
+		<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Editar Usuario</h4>
+					</div>
 
-		<div  ng-view>
+					<div class="content">
+                                <span >
+                                <section>
+                                    <form class="form-horizontal" method="post" action="/api/usuarios/<%=user._id%>?_method=PUT"novalidate>
 
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                        <label class="control-label" for="username" id="username" > Usuario </label>
+                                                        <input type="text" name="username" value="<%= user.username%>" placeholder="Email" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                        <label class="control-label" for="password" id="password" > Nueva contraseña </label>
+                                                        <input type="password" name="password" placeholder="Nueva Contraseña" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label class="control-label"></label>
+                                            <div class="controls">
+                                                <input id="btn" type="submit"  class="btn btn-info btn-fill" value="Editar">
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </section>
+
+                                </span>
+					</div>
+				</div>
+			</div>
 		</div>
+	</div>
+</div>
 
 
 
@@ -99,8 +146,8 @@
 				window.user=<%-user || 'null' %>;
 </script>
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/push.min.js"></script>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/push.min.js"></script>
 
 <!--   Core JS Files   -->
 <script src="/Dashboard/assets/js/jquery-1.10.2.js" type="text/javascript"></script>
@@ -145,7 +192,6 @@
 
     // jQuery way
     $( "#edit" ).attr( 'href', '/user/' + user._id );
-
 
 </script>
 
